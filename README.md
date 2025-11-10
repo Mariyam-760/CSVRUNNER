@@ -332,6 +332,3 @@ Commit your changes (git commit -m 'Add some AmazingFeature')
 Push to the branch (git push origin feature/AmazingFeature)
 Open a Pull Request
 
-
-this is ryt
-ur work is to keep the main points that attracts it 
