@@ -357,3 +357,83 @@ docker compose up --build
 Browser shows updated text.
 
 
+kubectl config get-contexts
+
+👉 FIX FOR YOUR ORIGINAL ERROR
+Run:
+kubectl config use-context docker-desktop
+Verify:
+kubectl get nodes
+You must see:
+docker-desktop   Ready
+If you see this → your Kubernetes is working ✔
+🟦 STEP 2 — Create a namespace
+kubectl create namespace demo
+🟦 STEP 3 — Create MySQL deployment YAML
+Create file:
+mysql-deploy.yaml
+Paste:
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+  namespace: demo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: demo
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: root
+          ports:
+          - containerPort: 3306
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-storage
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: demo
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+  selector:
+    app: mysql
+🟦 STEP 4 — Apply YAML
+kubectl apply -f mysql-deploy.yaml
+🟦 STEP 5 — Check deployment
+kubectl get pods -n demo
+kubectl get svc -n demo
+🟦 STEP 6 — Connect to MySQL (optional)
+Start a temporary MySQL client pod:
+kubectl run mysql-client --rm -it --image=mysql:8 --namespace=demo -- bash
+From inside the pod:
+mysql -h mysql -u root -p
+Password: root
