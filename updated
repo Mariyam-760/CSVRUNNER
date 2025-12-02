@@ -1,0 +1,359 @@
+✅ CREATE MAVEN PROJECT IN ECLIPSE
+Open Eclipse
+File → New → Other
+Type Maven → select Maven Project → Next
+Leave default workspace → Next
+Uncheck “Show the latest version of archetypes only”
+Select:
+org.apache.maven.archetypes → maven-archetype-quickstart (1.4)
+Next
+Fill in:
+Group Id: com.example
+Artifact Id: my_java
+Finish
+--->BUILD + RUN
+Right-click project → Run As → Maven clean
+Right-click project → Run As → Maven install
+Right-click App.java → Run As → Java Application
+--->PUSH TO GITHUB
+Go to GitHub → New repository
+Repository name: my_java
+Add .gitignore → choose Maven
+Create repository
+
+
+https://github.com/GuduriAmulya/MavenWebProj.git
+https://github.com/GuduriAmulya/MavenWebProj.git
+
+
+Maven Web project
+Step 1: Open Eclipse
+   └── 1.1 Launch Eclipse IDE.
+   └── 1.2 Select or create a workspace.
+Step 2: Create a New Maven Project
+   └── 2.1. File -> New -> Project...
+       └── 2.1.1. Expand "Maven"
+       └── 2.1.2. Select "Maven Project" and click "Next"
+Step 3: Choose Maven Archetype
+   └── 3.1. Select an archetype(e.g "'org.apache.maven.archetypes' -> 'maven-archetype-webapp' 1.4 ")
+   └── 3.2. Click "Next"
+Step 4: Configure the Maven Project
+   └── 4.1 Group Id: Enter a group ID (e.g., com.example).
+   └── 4.2 Artifact Id: Enter an artifact ID (e.g., my-web-app).
+   └── 4.3 Click **Finish** to create the project.
+Step 5: Add Maven Dependencies
+   └── 5.1 Open the **pom.xml** file in the Maven project.
+   └── 5.2 Add the necessary dependencies for your web project (e.g., Servlet, JSP):
+Go to browser -> Open mvnrepository.com
+ Search for 'Java Servlet API' -> Select the latest version.
+ Copy the dependency code -> Paste it in MavenWeb’s pom.xml under the target folder
+       └── Example:
+           ```xml
+           <dependency>
+               <groupId>javax.servlet</groupId>
+               <artifactId>javax.servlet-api</artifactId>
+               <version>4.0.1</version>
+               <scope>provided</scope>
+           </dependency>
+           ```
+   Step 6:-. Configure server:
+    └── Window -> Show View -> Servers
+    └── Add server -> Select Tomcat v9.0 server -> Click Next
+    └── Configure server options (e.g., ports, server location).
+Step 7:-. Modify 'tomcat-users.xml':
+    └── Add role and user details under <tomcat-users> tag.
+Step 8:. Build the project:
+    └── Right-click on index.jsp -> Run As -> Maven Clean
+    └── Right-click on index.jsp -> Run As -> Maven Install
+    └── Right-click on index.jsp -> Run As -> Maven Test
+    └── Right-click on index.jsp -> Run As -> Maven Build
+Step 9. In the Maven Build dialog:
+    └── Enter Goals: clean install test
+    └── Click on Apply -> Click on Run
+Step 10. Check console for BUILD SUCCESS message.
+Step 11. Run the application:
+    └── Right-click on index.jsp -> Run As -> Run on Server
+    └── Select the Tomcat server -> Click on Finish
+
+
+
+Docker + Redis Complete Steps
+Pull Redis Image
+docker pull redis
+
+Run Redis Container
+docker run --name my-redis -d redi
+
+Check Running Container
+docker ps
+
+Access Redis CLI
+docker exec -it my-redis redis-cli
+
+Example Redis Commands:
+SET name "Alice"
+GET name
+exit
+
+Stop Container
+docker stop my-redis
+
+Start Container
+docker start my-redis
+
+Remove Container
+docker rm my-redis
+
+Remove Redis Image
+docker rmi redis
+
+Working With Dockerfile
+
+Step 1: Create Project Folder
+
+Windows:
+cd /c/DockerProjects/Redis
+
+Mac/Linux:
+mkdir ~/DockerProjects/Redis
+cd ~/DockerProjects/Redis
+
+Step 2: Create Dockerfile with this content:
+FROM redis:latest
+CMD ["redis-server"]
+
+Docker Commands Step-by-Step
+
+Build Image
+docker build -t redisnew .
+
+Run Container
+docker run --name myredisnew -d redisnew
+
+Show Running Containers
+docker ps
+
+Stop Container
+docker stop myredisnew
+
+Login to Docker Hub
+docker login
+
+Show All Containers
+docker ps -a
+
+Commit Container to New Image
+docker commit 0e993d2009a1 budarajumadhurika/redis1
+
+Show Images
+docker images
+
+Push Image to Docker Hub
+docker push budarajumadhurika/redis1
+
+Remove Container
+docker rm 0e993d2009a1
+
+Remove Image
+docker rmi budarajumadhurika/redis1
+
+Show Containers Again
+docker ps -a
+
+Logout of Docker Hub
+docker logout
+
+Pull Image from Docker Hub
+docker pull budarajumadhurika/redis1
+
+Run Container from Pulled Image
+docker run --name myredis -d budarajumadhurika/redis1
+
+Enter Redis CLI
+docker exec -it myredis redis-cli
+
+Set Key
+SET name "Abcdef"
+
+Get Key
+GET name
+
+Exit Redis CLI
+exit
+
+Show Containers
+docker ps -a
+
+Stop Container
+docker stop myredis
+
+Remove Container
+docker rm 50a6e4a9c326
+
+Show Images
+docker images
+
+Remove Image
+docker rmi budarajumadhurika/redis1
+
+Optional:
+docker logout
+
+
+✅ STEP 1 — Create your lab folder
+Open terminal and run
+Windows:
+mkdir C:\compose-lab
+cd C:\compose-lab
+Mac/Linux:
+mkdir ~/compose-lab
+cd ~/compose-lab
+==================================================
+✅ STEP 2 — Create docker-compose.yml
+Inside compose-lab folder → create a file:
+docker-compose.yml
+PASTE THIS EXACT CONTENT:
+version: "3.9"
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo_db
+👉 You do NOT modify anything here yet.
+==================================================
+✅ STEP 3 — Run the compose file
+Run:
+docker compose up -d
+Go to browser:
+http://localhost:8080
+You should see Nginx welcome page.
+==================================================
+✅ STEP 4 — MODIFY docker-compose.yml to Add Redis
+Now open docker-compose.yml again.
+👉 You must ADD THIS BLOCK at the bottom under db:
+  redis:
+    image: redis:alpine
+👉 Then MODIFY the web service to include depends_on.
+Change FROM:
+web:
+  image: nginx:latest
+  ports:
+    - "8080:80"
+CHANGE TO THIS:
+web:
+  image: nginx:latest
+  ports:
+    - "8080:80"
+  depends_on:
+    - redis
+
+⚠️ You are making TWO modifications:
+Add redis service
+Add depends_on to web
+==================================================
+✅ STEP 5 — Restart Compose
+docker compose up -d
+docker compose ps
+You must see:
+web
+db
+redis
+ALL running.
+==================================================
+✅ STEP 6 — Test on another machine
+Zip your compose-lab folder
+Copy to another system
+Run:
+docker compose up -d
+Same result must appear.
+==================================================
+✅ STEP 7 — MODIFY docker-compose.yml to add network + volume
+Now open docker-compose.yml AGAIN.
+You must add:
+1️⃣ Add networks + volumes at the TOP-BOTTOM (below version)
+PASTE THIS BEFORE services or after (either ok):
+networks:
+  app-net:
+volumes:
+  db-data:
+2️⃣ Modify web service to include networks + depends_on (already there)
+Change your web service to this FULL BLOCK:
+web:
+  image: nginx:latest
+  ports:
+    - "8080:80"
+  networks:
+    - app-net
+  depends_on:
+    - db
+3️⃣ Modify db service to include volumes + networks
+Change your db service to this full block:
+db:
+  image: postgres:15
+  environment:
+    POSTGRES_USER: demo
+    POSTGRES_PASSWORD: demo
+    POSTGRES_DB: demo_db
+  volumes:
+    - db-data:/var/lib/postgresql/data
+  networks:
+    - app-net
+👉 You are modifying BOTH services.
+
+==================================================
+✅ STEP 8 — Run the updated file
+docker compose up -d
+Stop:
+docker compose down
+Start again:
+docker compose up -d
+👉 Your database data stays saved.
+==================================================
+✅ STEP 9 — Add Flask app (Development iteration)
+Create a file named: app.py
+PASTE THIS:
+from flask import Flask
+app = Flask(__name__)
+@app.route("/")
+def home():
+    return "Hello from Flask + Docker!"
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+Create a file named: Dockerfile
+PASTE THIS:
+FROM python:3.10-slim
+WORKDIR /app
+COPY app.py /app/
+RUN pip install flask
+CMD ["python", "app.py"]
+==================================================
+✅ STEP 10 — Modify docker-compose.yml AGAIN
+Modify ONLY the web service to this:
+web:
+  build: .
+  ports:
+    - "5000:5000"
+  depends_on:
+    - db
+==================================================
+✅ STEP 11 — Build & run
+docker compose up --build
+Visit:
+http://localhost:5000
+==================================================
+✅ STEP 12 — Change app.py and rebuild
+Change the line:
+return "Hello from Flask + Docker!"
+to
+return "Hello Docker Compose!"
+Rebuild:
+docker compose up --build
+Browser shows updated text.
+
+
